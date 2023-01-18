@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import GoalList from "./components/GoalList/GoalList";
-import NewGoal from "./components/NewGoal/NewGoal";
+import Users from "./user/pages/Users";
+import NewPlace from "./places/pages/NewPlace";
+
 import "./App.css";
+import Root from "./user/pages/Root";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Users />,
+      },
+      {
+        path: "/places/new",
+        element: <NewPlace />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  const [courseGoals, setCourseGoals] = useState([
-    { id: "cg1", text: "One" },
-    { id: "cg2", text: "Two" },
-    { id: "cg3", text: "Three" },
-  ]);
-
-  const addNewGoalHandler = (newGoal) => {
-    // setCourseGoals(courseGoals.concat(newGoal));
-    setCourseGoals(prevCourseGoals => prevCourseGoals.concat(newGoal));
-  };
-
-  return (
-    <div className="course-goals">
-      <h2>Course Goals</h2>
-      <NewGoal onAddGoal={addNewGoalHandler} />
-      <GoalList goals={courseGoals} />
-    </div>
-  );
+  return <RouterProvider router={router}></RouterProvider>;
 }
 
 export default App;
